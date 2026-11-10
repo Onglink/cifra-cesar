@@ -10,6 +10,7 @@ import {
   Alert 
 } from 'react-native';
 import { Link, router } from 'expo-router';
+import { api } from '../../services/api';
 
 export default function RegisterScreen() {
   const [username, setUsername] = useState('');
@@ -28,6 +29,8 @@ export default function RegisterScreen() {
 
       // TODO: Substituir pela chamada real ao seu backend (ex: axios.post('/register', { username, email, password }))
       // await api.post('/register', { username, email, password });
+
+      await api.post('/register', { username, email, password });
 
       Alert.alert('Sucesso', 'Conta criada com sucesso!', [
         { text: 'OK', onPress: () => router.back() } // Retorna para a tela de login

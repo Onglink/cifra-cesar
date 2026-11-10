@@ -8,6 +8,7 @@ import {
   ScrollView, 
   Alert 
 } from 'react-native';
+import { api } from '../../services/api';
 
 export default function DecryptScreen() {
   const [encryptedMessage, setEncryptedMessage] = useState('');
@@ -29,8 +30,12 @@ export default function DecryptScreen() {
       // const response = await api.post('/decrypt', { encryptedMessage, hashKey });
       // setDecryptedMessage(response.data.decryptedMessage);
 
-      // Simulação visual temporária de sucesso:
-      setDecryptedMessage('Esta é a mensagem original recuperada com sucesso!');
+      const response = await api.post('/decrypt', { 
+        encryptedMessage, 
+        hashKey 
+      });
+
+      setDecryptedMessage(response.data.decryptedMessage);
 
     } catch (error: any) {
       // O backend deve retornar erro se o hash já foi usado (coluna 'usado' = true) ou for inválido[cite: 1, 2]

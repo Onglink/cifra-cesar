@@ -9,6 +9,7 @@ import {
   Alert, 
   Clipboard 
 } from 'react-native';
+import { api } from '../../services/api';
 
 export default function EncryptScreen() {
   const [message, setMessage] = useState('');
@@ -31,9 +32,14 @@ export default function EncryptScreen() {
       // setEncryptedMessage(response.data.encryptedMessage);
       // setHashKey(response.data.hashKey);
 
+      const response = await api.post('/encrypt', { 
+        message, 
+        shift: Number(shift) 
+      });
+
       // Simulação visual temporária:
-      setEncryptedMessage('ExemploMensagemCriptografada');
-      setHashKey('hash_abc123xyz789');
+      setEncryptedMessage(response.data.encryptedMessage);
+      setHashKey(response.data.hashKey);
 
     } catch (error) {
       Alert.alert('Erro', 'Não foi possível realizar a criptografia.');

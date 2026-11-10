@@ -10,6 +10,8 @@ import {
   Alert 
 } from 'react-native';
 import { Link, router } from 'expo-router';
+import { api } from '../../services/api';
+import * as SecureStore from 'expo-secure-store';
 
 export default function LoginScreen() {
   const [email, setEmail] = useState('');
@@ -17,6 +19,8 @@ export default function LoginScreen() {
   const [loading, setLoading] = useState(false);
 
   async function handleLogin() {
+    const response = await api.post('/login', { email, password });
+
     if (!email || !password) {
       Alert.alert('Atenção', 'Preencha todos os campos.');
       return;
@@ -28,6 +32,9 @@ export default function LoginScreen() {
       // TODO: Substituir pela chamada real ao seu backend (ex: axios.post('/login'))
       // const response = await api.post('/login', { email, password });
       // await SecureStore.setItemAsync('token', response.data.token);
+
+      // Salva o token JWT de forma segura
+      await SecureStore.setItemAsync('user_token', response.data.token);
 
       // Simulação de sucesso para navegação inicial:
       router.replace('/(tabs)/encrypt');
