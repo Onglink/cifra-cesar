@@ -18,9 +18,8 @@ export default function LoginScreen() {
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
 
-  async function handleLogin() {
-    const response = await api.post('/login', { email, password });
-
+async function handleLogin() {
+    // 1. Valida primeiro se os campos estão preenchidos
     if (!email || !password) {
       Alert.alert('Atenção', 'Preencha todos os campos.');
       return;
@@ -29,14 +28,13 @@ export default function LoginScreen() {
     try {
       setLoading(true);
 
-      // TODO: Substituir pela chamada real ao seu backend (ex: axios.post('/login'))
-      // const response = await api.post('/login', { email, password });
-      // await SecureStore.setItemAsync('token', response.data.token);
+      // 2. Faz a requisição para o backend depois que a validação passou
+      const response = await api.post('/login', { email, password });
 
-      // Salva o token JWT de forma segura
+      // 3. Salva o token JWT de forma segura
       await SecureStore.setItemAsync('user_token', response.data.token);
 
-      // Simulação de sucesso para navegação inicial:
+      // 4. Redireciona para as abas de criptografia
       router.replace('/(tabs)/encrypt');
     } catch (error) {
       Alert.alert('Erro no Login', 'Credenciais inválidas ou erro no servidor.');

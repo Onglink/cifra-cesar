@@ -27,9 +27,7 @@ export default function RegisterScreen() {
     try {
       setLoading(true);
 
-      // TODO: Substituir pela chamada real ao seu backend (ex: axios.post('/register', { username, email, password }))
-      // await api.post('/register', { username, email, password });
-
+      // Requisição POST para a rota /register do backend
       await api.post('/register', { username, email, password });
 
       Alert.alert('Sucesso', 'Conta criada com sucesso!', [

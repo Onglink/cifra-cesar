@@ -57,8 +57,11 @@ exports.login = async (req, res) => {
       return res.status(400).json({ error: 'Informe o e-mail e a senha.' });
     }
 
-    // Busca o usuário pelo e-mail (permitindo também buscar por username se preferir)
-    const user = await User.findOne({ email }).select('+password');
+    // Busca o usuário pelo e-mail ou username
+    const user = await User.findOne({
+      $or: [{ email: email }, { username: email }]
+    }).select('+password');
+    
     if (!user) {
       return res.status(401).json({ error: 'Credenciais inválidas.' });
     }
